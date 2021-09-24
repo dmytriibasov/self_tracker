@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+Update
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% include reminders.reminder.html %}
+{% block main_container %}
+<form method="POST">
+        {% csrf_token %}
+        {{ card_form|crispy }}
+        {{ reminder_form|crispy }}
+        {% block reminder %}{% endblock %}
+        <br>
+        <input type="submit" value="Confirm changes">
+        <br>
+        <button type="reset">Discard</button>
+        <br>
+        </button>
+</form>
+{% endblock %}

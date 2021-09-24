@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Card{{ card.id }}{% endblock %}
+
+{% block main_container %}
+    <h1>My Card: {{ card.title }}</h1>
+    <br>
+    My goals:
+    <div>
+        {% for goal in card.goals.all %}
+        <a href="{{ goal.get_absolute_url }}">{{ goal.title }}</a>
+        <p>{{ goal.description|truncatewords:5 }}</p>
+        {% endfor %}
+        <br>
+        <form action="{% url 'cards:goal-new' card.id %}">
+            <input type="submit" value="Add new goal">
+        </form>
+    </div>
+        <br>
+    <form>
+        <button type="submit" formaction="{% url 'cards:update' card.id %}">Update</button>
+    </form>
+        <br>
+    <form>
+        <button type="submit" formaction="delete/">Delete</button>
+    </form>
+{% endblock %}

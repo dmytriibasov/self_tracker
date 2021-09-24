@@ -1,0 +1,72 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<head>
+    <style type="text/css">
+        .sidenav {
+            height:100%;
+            width:160px;
+            position:fixed;
+            z-index:1;
+            top:0;
+            left:0;
+            background-color:#483D8B;
+            overflow-x:hidden;
+            padding-top:20px;
+        }
+
+        .sidenav a {
+            padding:6px 8px 6px 16px;
+            text-decoration:none;
+            font-size:25px;
+            color:#FF8C00;
+            display:block;
+        }
+
+        .sidenav a:hover{
+            color:#F0F8FF
+        }
+
+        .main {
+            margin-left:160px;
+            padding: 10px;
+        }
+
+        footer {
+<!--            clear: both;-->
+            bottom:0;
+            position: absolute;
+            height: 200px;
+            width:100%;
+            margin-top: -200px;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <div class="sidenav">
+        {% block sidenav %}
+        {% if request.user.is_authenticated %}
+                <a href="{% url 'common:home-page' %}">Home</a>
+                <a href="{% url 'common:logout-page' %}">Logout</a>
+                <a href="{% url 'cards:list' %}">My cards</a>
+                <a href="{% url 'users:profile-page' user.id %}">Profile</a>
+        {% else %}
+                <a href="{% url 'common:home-page' %}">Home</a>
+                <a href="{% url 'common:login-page' %}">Login</a>
+                <a href="{% url 'users:register-page' %}">Register</a>
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    <div id="content" name="content" class="main">
+        {% block main_container %}
+        {% endblock %}
+    </div>
+
+</body>

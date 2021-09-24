@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Goal details
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block main_container %}
+<div>
+ <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+        <input type="submit" value="Confirm changes">
+        <br>
+        <button type="reset">Discard</button>
+        <br>
+</form>
+</div>
+<div>
+       <form method="POST" action="delete/">
+              {% csrf_token %}
+              <input type="submit" value="Delete">
+       </form>
+</div>
+{% endblock %}
