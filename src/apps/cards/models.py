@@ -1,6 +1,6 @@
 from django.db import models
 from config import settings
-
+from django.utils import timezone
 
 # Create your models here.
 class Card(models.Model):
@@ -79,6 +79,11 @@ class Goal(models.Model):
 
 
 # Reminders
+class ReminderQuerySet(models.QuerySet):
+
+    def is_active(self):
+        return self.filter(is_active=True)
+
 
 class Reminder(models.Model):
     card = models.OneToOneField(
@@ -112,6 +117,8 @@ class Reminder(models.Model):
     created_at = models.DateTimeField(
         auto_now=True,
     )
+
+    objects = ReminderQuerySet.as_manager()
 
     class Meta:
         verbose_name = "Reminder"
