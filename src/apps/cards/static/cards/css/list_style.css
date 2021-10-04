@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px 20px 20px 20px;
+    align-content: flex-start;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 300px;
+    width: 400px;
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+
+}
+
+.card-top {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    width: 100%;
+    align-self: flex-start;
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.card-title {
+    flex-wrap: wrap;
+    padding: 5px;
+    width: 100%;
+}
+
+.card-center {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    width: 100%;
+    align-self: center;
+    flex-grow: 2;
+    padding: 5px;
+}
+
+.card-description {
+    flex-wrap: wrap;
+    padding: 5px;
+    width: 100%;
+}
+
+.card-bottom {
+    display: flex;
+    align-self: flex-end;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    width: 100%;
+    align-content: center;
+    padding: 0px 5px 5px 5px;
+}
+
+.card-rating {
+    order: 1;
+    font-size: 20px;
+    width: 50%;
+    padding-left: 40px;
+}
+
+.card-detail {
+    width: 50%;
+    padding-left: 25px;
+    font-size: 30px;
+}
+
+.card-image-plus {
+    flex-wrap: wrap;
+    text-align: center;
+    flex-grow: 1;
+    width: 100%;
+    height: 50px;
+    font-size: 50px;
+}
+
+@media screen and (max-width: 650px) {
+    .card-container{
+        width: 100%;
+        display: flex;
+        margin-bottom: 20px;
+    }
+}
+

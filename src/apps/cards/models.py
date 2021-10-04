@@ -2,6 +2,7 @@ from django.db import models
 from config import settings
 from django.utils import timezone
 
+
 # Create your models here.
 class Card(models.Model):
 
@@ -28,8 +29,6 @@ class Card(models.Model):
         auto_now=True,
     )
 
-    evaluation = models.IntegerField()
-
     class Meta:
         verbose_name = 'Card'
         verbose_name_plural = 'Cards'
@@ -39,43 +38,6 @@ class Card(models.Model):
 
     def get_absolute_url(self):
         return f'/cards/{self.id}/'
-
-
-# Goals
-class Goal(models.Model):
-
-    card = models.ForeignKey(
-        to=Card,
-        on_delete=models.CASCADE,
-        related_name='goals',
-    )
-
-    title = models.CharField(
-        max_length=50,
-        blank=False,
-    )
-
-    description = models.TextField(
-        max_length=255,
-    )
-
-    evaluation = models.IntegerField(
-        default=1,
-        null=False,
-    )
-
-    class Meta:
-        verbose_name = "Goal"
-        verbose_name_plural = "Goals"
-
-    def get_absolute_url(self):
-        return f'/cards/{self.card.id}/goal/{self.id}/'
-
-    def get_delete_url(self):
-        return f'/cards/{self.card.id}/goal/{self.id}/delete/'
-
-    def __str__(self):
-        return f'{self.title}: description:{self.description} at {self.evaluation}'
 
 
 # Reminders
@@ -126,3 +88,54 @@ class Reminder(models.Model):
 
     def __str__(self):
         return f'{self.comment}: status:{self.is_active} at {self.remind_time}'
+
+
+# Goals
+class Goal(models.Model):
+
+    card = models.ForeignKey(
+        to=Card,
+        on_delete=models.CASCADE,
+        related_name='goals',
+    )
+
+    title = models.CharField(
+        max_length=50,
+        blank=False,
+    )
+
+    description = models.TextField(
+        max_length=255,
+    )
+
+    class Meta:
+        verbose_name = "Goal"
+        verbose_name_plural = "Goals"
+
+    def get_absolute_url(self):
+        return f'/cards/{self.card.id}/goal/{self.id}/'
+
+    def get_delete_url(self):
+        return f'/cards/{self.card.id}/goal/{self.id}/delete/'
+
+    def __str__(self):
+        return f'{self.title}: description:{self.description}'
+
+
+class Rating(models.Model):
+
+    goal = models.ForeignKey(
+        to=Goal,
+        on_delete=models.CASCADE,
+        related_name='ratings',
+    )
+
+    value = models.IntegerField(
+        default=0,
+        blank=True,
+    )
+
+    created_at = models.DateField(
+        auto_now_add=True,
+    )
+

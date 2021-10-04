@@ -1,22 +1,53 @@
 {% extends 'base.html' %}
-{% block title %}
-card List
-{% endblock %}
-
-{% load crispy_forms_tags %}
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Card List {% endblock %}</title>
+<!-- CSS Style -->
+<link rel="stylesheet" href="{% static 'cards/css/list_style.css' %}">
+    <!-- Boxicons CDN Link -->
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
 
 {% block main_container %}
-    <h1>Card list</h1>
-    <a>User: {{ request.user }}</a>
-    {% for card in cards %}
-    <p>
-        <a href="{{ card.get_absolute_url }}" >{{ card.title }}</a>
-        <a>{{ card.description|truncatewords:5 }}</a>
-    </p>
-    <br>
+<link rel="stylesheet" href="{% static 'cards/css/list_style.css' %}">
+<div class="flex-container">
+  {% for card in cards %}
+        <div class="card-container">
+            <div class="card-top">
+                <div class="card-title">
+                    <h3>{{ card.title }}</h3>
+                </div>
+            </div>
+            <div class="card-center">
+                <div class="card-description">
+                    <p>{{ card.description|truncatewords:5 }}</p>
+                </div>
+            </div>
+            <div class="card-bottom">
+                <div class="card-detail">
+                    <a href="{{ card.get_absolute_url }}">
+                        <i class='bx bxs-edit' id='detail-image'></i>
+                    </a>
+                </div>
+                <div class="card-rating">
+                    <a>Daily score:
+                        <output>5</output>
+                    </a>    
+                </div>
+            </div>
+        </div>
     {% endfor %}
-    <form>
-        <h2>{{ cards.get_create_url }}</h2>
-        <button type="submit" formaction="{% url 'cards:new' %}">Add new card</button>
-    </form>
+    <a href="{% url 'cards:new' %}">
+        <div class="card-container">
+            <div class="card-center">
+                <div class="card-image-plus">
+                    <i class='bx bx-plus' id="plus-image"></i>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
 {% endblock %}

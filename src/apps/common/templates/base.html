@@ -5,9 +5,10 @@
   <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+<!-- CSS Style -->
     <link rel="stylesheet" href="{% static 'common/css/style.css' %}">
     <!-- Boxicons CDN Link -->
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body>
@@ -122,10 +123,8 @@
     </ul>
   </div>
   <section class="home-section">
-      <div>
-          {% block main_container %}
-          {% endblock %}
-      </div>
+      {% block main_container %}
+        {% endblock %}
   </section>
   <script src="{% static 'common/js/sidebars.js' %}"></script>
 </body>

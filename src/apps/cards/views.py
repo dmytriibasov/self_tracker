@@ -4,9 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.views.generic.edit import ProcessFormView, BaseFormView
+from django.utils import timezone
 
-from .forms import CardForm, ReminderForm, GoalForm
-from .models import Card, Goal, Reminder
+from .forms import CardForm, ReminderForm, GoalForm, RatingForm
+from .models import Card, Goal, Reminder, Rating
 from config import settings
 
 
@@ -128,7 +129,7 @@ class CardReminderUpdateView(LoginRequiredMixin, BaseFormView):
             # Card part
             card.title = self.request.POST.get('title')
             card.description = self.request.POST.get('description')
-            card.evaluation = self.request.POST.get('evaluation')
+            # card.evaluation = self.request.POST.get('evaluation')
 
             # Reminder part
             is_active = False
@@ -158,7 +159,7 @@ class CardReminderUpdateView(LoginRequiredMixin, BaseFormView):
 class GoalCreateView(LoginRequiredMixin, generic.CreateView):
     model = Goal
     template_name = 'goals/new.html'
-    fields = ('title', 'description', 'evaluation')
+    fields = ('title', 'description', )
     context_object_name = 'goal'
 
     login_url = settings.LOGIN_REDIRECT_URL
@@ -197,3 +198,42 @@ class GoalDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_success_url(self):
         return self.object.card.get_absolute_url()
+
+
+# REMINDER`s VIEWS
+class CardReminderCreateView(LoginRequiredMixin, ProcessFormView):
+    template_name = 'cards/new.html'
+    card_form = CardForm
+    reminder_form = ReminderForm
+    title = 'Create page'
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'card_form': self.card_form,
+            'reminder_form': self.reminder_form,
+            'title': self.title,
+        }
+        return render(request, self.template_name, context or {})
+
+    def post(self, request, *args, **kwargs):
+
+        card_form = self.card_form(request.POST)
+        reminder_form = self.reminder_form(request.POST)
+        context = {
+            'card_form': self.card_form,
+            'reminder_form': self.reminder_form,
+        }
+
+        if card_form.is_valid() and reminder_form.is_valid():
+
+            # Card part
+            card_form.instance.user = request.user
+            card_form.save()
+
+            # Reminder part
+            reminder_form.instance.card = card_form.instance
+            reminder_form.save()
+
+            return HttpResponseRedirect(reverse('cards:list'))
+
+        return render(request, self.template_name, context or {})
